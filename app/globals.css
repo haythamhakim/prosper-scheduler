@@ -1,0 +1,527 @@
+@import "tailwindcss";
+
+:root {
+  --prosper-dark-green: #124e43;
+  --prosper-button-green: #1c7867;
+  --prosper-cream: #fffaf5;
+  --prosper-soft-cream: #f7f0e6;
+  --prosper-tan-border: #e5cbb9;
+  --prosper-mint: #f1f8f7;
+  --prosper-text: #2e2e2e;
+  --prosper-muted: #475467;
+  --background: var(--prosper-cream);
+  --foreground: var(--prosper-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.scheduler-page {
+  min-height: 100vh;
+  padding: 3rem 1.5rem;
+  background:
+    radial-gradient(circle at top left, #ffffff 0%, var(--prosper-cream) 30%),
+    var(--prosper-cream);
+}
+
+.scheduler-shell {
+  margin: 0 auto;
+  width: min(960px, 100%);
+  display: grid;
+  gap: 1.25rem;
+}
+
+.scheduler-header {
+  border: 1px solid var(--prosper-tan-border);
+  border-radius: 16px;
+  padding: 2rem;
+  background: linear-gradient(180deg, #ffffff, var(--prosper-soft-cream));
+}
+
+.scheduler-header-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.scheduler-header-content {
+  display: grid;
+}
+
+.scheduler-header h1 {
+  margin-top: 0.25rem;
+  font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+  color: var(--prosper-dark-green);
+}
+
+.scheduler-header p {
+  margin-top: 0.4rem;
+  color: var(--prosper-muted);
+}
+
+.eyebrow {
+  margin-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  color: var(--prosper-button-green);
+  font-weight: 700;
+}
+
+.reset-button {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--prosper-tan-border);
+  background: #fff;
+  color: var(--prosper-dark-green);
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 160ms ease;
+}
+
+.reset-button:hover {
+  border-color: var(--prosper-button-green);
+  color: var(--prosper-button-green);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(11, 67, 43, 0.16);
+}
+
+.reset-button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: max-content;
+  padding: 0.42rem 0.6rem;
+  border-radius: 8px;
+  background: #1f2e27;
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 140ms ease;
+  z-index: 10;
+}
+
+.reset-button:hover::after,
+.reset-button:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reset-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.reset-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  width: 18px;
+  height: 18px;
+}
+
+.reset-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.scheduler-step {
+  border: 1px solid var(--prosper-tan-border);
+  border-radius: 14px;
+  background: #fff;
+  padding: 1.25rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.scheduler-step h2 {
+  font-size: 1.35rem;
+  color: var(--prosper-dark-green);
+}
+
+.scheduler-step h3 {
+  margin-top: 0.6rem;
+  color: var(--prosper-dark-green);
+}
+
+.account-grid,
+.type-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.account-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.type-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media (max-width: 640px) {
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.account-card,
+.type-card,
+.slot-card,
+.book-button,
+.reset-confirmation-cancel,
+.reset-confirmation-confirm {
+  border-radius: 12px;
+  border: 1px solid var(--prosper-tan-border);
+  transition: all 160ms ease;
+}
+
+.account-card,
+.type-card,
+.slot-card {
+  text-align: left;
+  background: #fff;
+  padding: 0.9rem;
+}
+
+.account-card:hover,
+.type-card:hover,
+.slot-card:hover {
+  border-color: var(--prosper-button-green);
+  transform: translateY(-1px);
+}
+
+.account-card.active,
+.type-card.active,
+.slot-card.active {
+  border-color: var(--prosper-button-green);
+  background: var(--prosper-mint);
+}
+
+.account-card {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.welcome-back-card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.welcome-back-account {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 1px solid var(--prosper-tan-border);
+  border-radius: 12px;
+  background: var(--prosper-mint);
+  padding: 0.9rem;
+}
+
+.switch-account-button {
+  justify-self: start;
+  border-radius: 999px;
+  border: 1px solid var(--prosper-tan-border);
+  background: #fff;
+  color: var(--prosper-dark-green);
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 0.35rem 0.8rem;
+  transition: all 160ms ease;
+}
+
+.switch-account-button:hover {
+  border-color: var(--prosper-button-green);
+  color: var(--prosper-button-green);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--prosper-button-green);
+}
+
+.account-name,
+.slot-primary,
+.type-title {
+  font-weight: 600;
+  color: var(--prosper-text);
+}
+
+.account-meta {
+  color: var(--prosper-muted);
+  font-size: 0.9rem;
+}
+
+.duration-pill {
+  margin-top: 0.5rem;
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.75rem;
+  background: var(--prosper-soft-cream);
+  color: var(--prosper-dark-green);
+}
+
+.slot-list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.day-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.day-chip {
+  border-radius: 999px;
+  border: 1px solid var(--prosper-tan-border);
+  background: #fff;
+  padding: 0.35rem 0.75rem;
+  color: var(--prosper-muted);
+  font-size: 0.85rem;
+  transition: all 160ms ease;
+}
+
+.day-chip:hover {
+  border-color: var(--prosper-button-green);
+  color: var(--prosper-dark-green);
+}
+
+.day-chip.active {
+  border-color: var(--prosper-button-green);
+  background: var(--prosper-mint);
+  color: var(--prosper-dark-green);
+}
+
+.hint {
+  color: var(--prosper-muted);
+  font-size: 0.92rem;
+}
+
+.assessment-stepper-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid var(--prosper-tan-border);
+  border-radius: 10px;
+  background: var(--prosper-soft-cream);
+}
+
+.assessment-stepper-label {
+  margin: 0;
+  color: var(--prosper-dark-green);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.assessment-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid var(--prosper-tan-border);
+  border-radius: 999px;
+  background: #fff;
+  padding: 0.3rem 0.75rem;
+  color: var(--prosper-dark-green);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 160ms ease;
+}
+
+.assessment-back-button:hover {
+  border-color: var(--prosper-button-green);
+  color: var(--prosper-button-green);
+}
+
+.assessment-back-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.assessment-stepper-panel {
+  display: grid;
+  gap: 1rem;
+  padding: 0.8rem 0.15rem 0.45rem;
+}
+
+.scheduler-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.book-button {
+  padding: 0.85rem 1.15rem;
+  background: var(--prosper-button-green);
+  color: #fff;
+  font-weight: 600;
+  border-color: var(--prosper-dark-green);
+}
+
+.book-button:hover {
+  background: var(--prosper-dark-green);
+}
+
+.book-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  border-radius: 10px;
+  border: 1px solid #eaa9a9;
+  padding: 0.75rem;
+  background: #fff5f5;
+  color: #9b2525;
+}
+
+.confirmation-card {
+  border: 1px solid var(--prosper-tan-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #f3fcfa, #fff);
+  width: min(760px, calc(100% - 2rem));
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+.confirmation-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(18, 78, 67, 0.3);
+  backdrop-filter: blur(2px);
+}
+
+.confirmation-card h3 {
+  margin-top: 0.7rem;
+  font-size: 1.4rem;
+  color: var(--prosper-dark-green);
+}
+
+.reset-confirmation-card {
+  max-width: 520px;
+}
+
+.reset-confirmation-card p {
+  margin-top: 0.6rem;
+  color: var(--prosper-muted);
+}
+
+.reset-confirmation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.reset-confirmation-cancel,
+.reset-confirmation-confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.62rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reset-confirmation-cancel {
+  background: #fff;
+  color: var(--prosper-dark-green);
+}
+
+.reset-confirmation-cancel:hover {
+  border-color: var(--prosper-button-green);
+  color: var(--prosper-button-green);
+}
+
+.reset-confirmation-confirm {
+  background: var(--prosper-button-green);
+  color: #fff;
+  border-color: var(--prosper-dark-green);
+}
+
+.reset-confirmation-confirm:hover {
+  background: var(--prosper-dark-green);
+}
+
+.reset-confirmation-cancel:disabled,
+.reset-confirmation-confirm:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.checkmark {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--prosper-button-green);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.confirmation-list {
+  margin-top: 0.75rem;
+  list-style: disc;
+  padding-left: 1.15rem;
+  color: var(--prosper-muted);
+}
+
+@media (max-width: 640px) {
+  .scheduler-page {
+    padding: 1.1rem;
+  }
+
+  .scheduler-header {
+    padding: 1.25rem;
+  }
+}
